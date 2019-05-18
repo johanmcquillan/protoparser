@@ -1,8 +1,9 @@
 
 def go_proto_decoder(
-        name:str, args:list, deps:list,
+        name:str, args:list, proto_deps:list,
 ):
     args_string = ' '.join(args)
+
     genrule(
         name = '_%s#gosrc' % name,
         tools = ['//tools/go_writer'],
@@ -22,5 +23,7 @@ def go_proto_decoder(
 go_proto_decoder(
     name = 'test',
     args = [],
-    deps = [],
+    proto_deps = [
+        '//proto:finance',
+    ],
 )
