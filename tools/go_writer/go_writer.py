@@ -2,8 +2,9 @@
 import argparse
 
 
-_INDENT = ' '*4
+_INDENT = 4 * ' '
 
+_VAR_PB = 'pb'
 
 class GoFile(object):
 
@@ -11,32 +12,51 @@ class GoFile(object):
         if imports is None:
             imports = []
         self.imports = imports
+        self.f = None
 
-    def write_imports(self, f):
-        f.write('\nimport (\n')
-        f.write(_INDENT + '"fmt"\n')
+    def open(self):
+        self.f = open('main.go', 'x')
+
+    def close(self):
+        self.f.close()
+
+    def __enter__(self):
+        self.open()
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.close()
+
+    def write(self, string: str, indent=0):
+        self.f.write(indent * _INDENT + string)
+
+    def writeln(self, *args, indent=0):
+        for arg in args:
+            self.write(arg + '\n', indent=indent)
+
+    def write_imports(self):
+        self.writeln('\nimport (')
+        self.writeln('"fmt"', indent=1)
 
         if len(self.imports) > 0:
-            f.write('\n')
+            self.writeln()
             for i in sorted(self.imports):
-                f.write(_INDENT + i + '\n')
-        f.write(')\n')
+                self.writeln(i, indent=1)
+        self.writeln(')')
 
-    def write_main(self, f):
-        f.write('\nfunc main() {\n')
+    def write_main(self):
+        self.writeln('\nfunc main() {')
 
-        f.write(_INDENT +  'fmt.Println("Hello World!")\n')
+        self.writeln('fmt.Println("Hello World!")', indent=1)
+        self.writeln()
 
-        f.write('}\n')
-
+        self.writeln('}')
 
     def generate(self):
+        self.writeln('package main')
 
-        with open('main.go', 'w') as f:
-            f.write('package main\n\n')
-
-            self.write_imports(f)
-            self.write_main(f)
+        self.write_imports()
+        self.write_main()
 
 
 def main():
@@ -45,7 +65,8 @@ def main():
 
     args = parser.parse_args()
 
-    GoFile(imports=args.imports).generate()
+    with GoFile(imports=args.imports) as go:
+        go.generate()
 
 
 if __name__ == '__main__':

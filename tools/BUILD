@@ -16,7 +16,9 @@ def go_proto_decoder(
     go_binary(
         name = name,
         srcs = [':_%s#gosrc' % name],
-        deps = deps,
+        deps = proto_deps + [
+            '//third_party/go:protobuf',
+        ],
     )
 
 
