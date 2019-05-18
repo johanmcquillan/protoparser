@@ -1,0 +1,8 @@
+syntax = 'proto3';
+
+package finance;
+
+message Transaction {
+    string to_account = 1;
+    string from_account = 2;
+}
