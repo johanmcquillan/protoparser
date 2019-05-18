@@ -5,13 +5,14 @@ import argparse
 _INDENT = 4 * ' '
 
 _VAR_PB = 'pb'
+_VAR_PPKG = 'protoPkg'
 
 class GoFile(object):
 
     def __init__(self, imports=None):
         if imports is None:
             imports = []
-        self.imports = imports
+        self.imports = sorted(imports)
         self.f = None
 
     def open(self):
@@ -40,8 +41,8 @@ class GoFile(object):
 
         if len(self.imports) > 0:
             self.writeln()
-            for i in sorted(self.imports):
-                self.writeln(i, indent=1)
+            for i, path in enumerate(self.imports):
+                self.writeln("%s%d %s" % (_VAR_PPKG, i, path), indent=1)
         self.writeln(')')
 
     def write_main(self):

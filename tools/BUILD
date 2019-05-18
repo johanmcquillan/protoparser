@@ -21,9 +21,8 @@ def go_proto_decoder(
         ],
     )
 
-
 go_proto_decoder(
-    name = 'test',
+    name = 'example',
     args = [],
     proto_deps = [
         '//proto:finance',

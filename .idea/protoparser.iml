@@ -6,6 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/plz-out/go" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/proto" />
+      <excludeFolder url="file://$MODULE_DIR$/tools/go_writer/test_data" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
