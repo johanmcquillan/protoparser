@@ -37,12 +37,12 @@ class GoFile(object):
             self.write(arg + '\n', indent=indent)
 
     def write_imports(self):
-        self.writeln('\nimport (')
-        self.writeln('"fmt"', indent=1)
+        self.writeln('import (')
         self.writeln('"os"', indent=1)
         self.writeln('"strings"', indent=1)
 
         self.writeln()
+        self.writeln('"github.com/golang/protobuf/jsonpb"', indent=1)
         self.writeln('"github.com/golang/protobuf/proto"', indent=1)
 
         self.writeln()
@@ -50,7 +50,8 @@ class GoFile(object):
         self.writeln(')')
 
     def write_main(self):
-        self.writeln('\nfunc main() {')
+        self.writeln('func main() {')
+        self.writeln('marshaller := &jsonpb.Marshaler{}', indent=1)
 
         self.writeln('arg := []byte(strings.Join(os.Args[1:], ""))', indent=1)
 
@@ -59,16 +60,16 @@ class GoFile(object):
         self.writeln(f'panic(err)', indent=2)
         self.writeln('}', indent=1)
 
-
-
-
-
+        self.writeln(f'marshaller.Marshal(os.Stdout, {_VAR_PB})', indent=1)
         self.writeln('}')
 
     def generate(self):
         self.writeln('package main')
+        self.writeln()
 
         self.write_imports()
+        self.writeln()
+
         self.write_main()
 
 

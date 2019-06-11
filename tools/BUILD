@@ -18,6 +18,7 @@ def go_proto_decoder(name:str, args:list, proto_target:str):
         srcs = [':_%s#gosrc' % name],
         deps = [
             proto_target,
+            '//third_party/go:jsonpb',
             '//third_party/go:protobuf',
         ],
     )
