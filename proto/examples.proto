@@ -3,7 +3,7 @@ syntax = 'proto3';
 package examples;
 
 message SimpleMessage {
-    string str = 1;
+    string text = 1;
     int32 small_int = 2;
     int64 big_int = 3;
 }

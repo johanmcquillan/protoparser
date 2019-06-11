@@ -11,3 +11,5 @@
 [go]
 importpath = github.com/johanmcquillan/protoparser
 
+[python]
+moduledir = third_party.python
