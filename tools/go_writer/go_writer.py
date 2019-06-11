@@ -9,8 +9,9 @@ _VAR_PPKG = 'protopkg'
 
 class GoFile(object):
 
-    def __init__(self, proto_import):
+    def __init__(self, proto_import, proto_message):
         self.proto_import = proto_import
+        self.proto_message = proto_message
         self.f = None
 
     def open(self):
@@ -46,7 +47,7 @@ class GoFile(object):
         self.writeln('"github.com/golang/protobuf/proto"', indent=1)
 
         self.writeln()
-        self.writeln('%s "%s"' % (_VAR_PPKG, self.proto_import), indent=1)
+        self.writeln(f'{_VAR_PPKG} "{self.proto_import}"', indent=1)
         self.writeln(')')
 
     def write_main(self):
@@ -55,7 +56,7 @@ class GoFile(object):
 
         self.writeln('arg := []byte(strings.Join(os.Args[1:], ""))', indent=1)
 
-        self.writeln(f'{_VAR_PB} := &{_VAR_PPKG}.Transaction{{}}', indent=1)
+        self.writeln(f'{_VAR_PB} := &{_VAR_PPKG}.{self.proto_message}{{}}', indent=1)
         self.writeln(f'if err := proto.Unmarshal(arg, {_VAR_PB}); err != nil {{', indent=1)
         self.writeln(f'panic(err)', indent=2)
         self.writeln('}', indent=1)
@@ -76,10 +77,11 @@ class GoFile(object):
 def main():
     parser = argparse.ArgumentParser('go_writer')
     parser.add_argument('-i', '--import', dest='proto_import', type=str, required=True)
+    parser.add_argument('-m', '--message', dest='proto_message', type=str, required=True)
 
     args = parser.parse_args()
 
-    with GoFile(proto_import=args.proto_import) as go:
+    with GoFile(proto_import=args.proto_import, proto_message=args.proto_message) as go:
         go.generate()
 
 

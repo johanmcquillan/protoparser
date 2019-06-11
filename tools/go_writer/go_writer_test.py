@@ -16,7 +16,7 @@ class MockFile(object):
 class TestGoWriter(unittest.TestCase):
 
     def setUp(self):
-        self.gofile = GoFile("github.com/johanmcquillan/protoparser/proto/finance")
+        self.gofile = GoFile("github.com/johanmcquillan/protoparser/proto/finance", "Transaction")
         self.gofile.f = MockFile()
 
         self.maxDiff = None
