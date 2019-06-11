@@ -5,3 +5,9 @@ proto_library(
     srcs = ['finance.proto'],
     languages = ['go']
 )
+
+proto_library(
+    name = 'examples',
+    srcs = ['examples.proto'],
+    languages = ['go']
+)
