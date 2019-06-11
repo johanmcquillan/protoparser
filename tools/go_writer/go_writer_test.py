@@ -16,8 +16,10 @@ class MockFile(object):
 class TestGoWriter(unittest.TestCase):
 
     def setUp(self):
-        self.gofile = GoFile()
+        self.gofile = GoFile("github.com/johanmcquillan/protoparser/proto/finance")
         self.gofile.f = MockFile()
+
+        self.maxDiff = None
 
     def test_empty(self):
         test_data_path = 'tools/go_writer/test_data/empty.go'

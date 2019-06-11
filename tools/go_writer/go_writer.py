@@ -2,10 +2,10 @@
 import argparse
 
 
-_INDENT = 4 * ' '
+_INDENT = '\t'
 
 _VAR_PB = 'pb'
-_VAR_PPKG = 'protoPkg'
+_VAR_PPKG = 'protopkg'
 
 class GoFile(object):
 
@@ -39,8 +39,8 @@ class GoFile(object):
     def write_imports(self):
         self.writeln('\nimport (')
         self.writeln('"fmt"', indent=1)
-        self.writeln('"strings"', indent=1)
         self.writeln('"os"', indent=1)
+        self.writeln('"strings"', indent=1)
 
         self.writeln()
         self.writeln('"github.com/golang/protobuf/proto"', indent=1)
@@ -52,7 +52,6 @@ class GoFile(object):
     def write_main(self):
         self.writeln('\nfunc main() {')
 
-        self.writeln('fmt.Println("Hello World!")', indent=1)
         self.writeln('arg := []byte(strings.Join(os.Args[1:], ""))', indent=1)
 
         self.writeln(f'{_VAR_PB} := &{_VAR_PPKG}.Transaction{{}}', indent=1)
