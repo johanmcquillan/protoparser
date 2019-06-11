@@ -1,15 +1,15 @@
 python_binary(
-    name = 'go_writer',
-    main = 'go_writer.py',
+    name = "go_writer",
+    main = "go_writer.py",
     deps = [],
     visibility = ["PUBLIC"],
 )
 
 python_test(
-    name = 'test',
-    srcs = ['go_writer_test.py'],
+    name = "test",
+    srcs = ["go_writer_test.py"],
     deps = [
-        ':go_writer',
+        ":go_writer",
     ],
-    data = glob(['test_data/*']),
+    data = glob(["test_data/*"]),
 )

@@ -1,2 +1,2 @@
-package(default_visibility = ['PUBLIC'])
+package(default_visibility = ["PUBLIC"])
 
