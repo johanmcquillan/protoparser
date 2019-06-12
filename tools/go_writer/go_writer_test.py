@@ -4,6 +4,9 @@ import unittest
 from tools.go_writer.go_writer import GoFile
 
 
+test_data_path = 'tools/go_writer/test_data/test.go'
+
+
 class MockFile(object):
 
     def __init__(self):
@@ -21,8 +24,7 @@ class TestGoWriter(unittest.TestCase):
 
         self.maxDiff = None
 
-    def test_empty(self):
-        test_data_path = 'tools/go_writer/test_data/test.go'
+    def test_writes_correctly(self):
 
         with open(test_data_path) as test_file:
             test_data = test_file.read()

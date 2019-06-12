@@ -1,6 +1,11 @@
 package(default_visibility = ["PUBLIC"])
 
 go_get(
+    name = "flags",
+    get = "github.com/jessevdk/go-flags",
+)
+
+go_get(
     name = "jsonpb",
     get = "github.com/golang/protobuf/jsonpb",
     deps = [
