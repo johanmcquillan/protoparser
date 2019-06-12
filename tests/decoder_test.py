@@ -10,6 +10,8 @@ from proto.examples_pb2 import SimpleMessage
 binary_path = 'decoders/simple_message_decoder'
 
 
+
+
 class TestDecoder(unittest.TestCase):
 
     def setUp(self):
@@ -19,19 +21,40 @@ class TestDecoder(unittest.TestCase):
         self.maxDiff = None
 
     def test_no_input(self):
-        p = subprocess.run([binary_path], capture_output=True)
-        self.assertEqual(0, p.returncode)
-        self.assertEqual(b'{}', p.stdout)
+        p = assertExecutesSuccessfully(self, binary_path)
+        self.assertEqual(b'', p.stdout)
         self.assertEqual(b'', p.stderr)
 
-    def test_simple_input(self):
-        msg = SimpleMessage(
-            text='hello',
-            small_int=1,
-            big_int=2,
-        ).SerializeToString()
+    def test_empty_message(self):
+        msg = SimpleMessage().SerializeToString()
 
-        p = subprocess.run([binary_path], capture_output=True, input=msg)
-        self.assertEqual(0, p.returncode)
+        p = assertExecutesSuccessfully(self, binary_path, stdin=msg)
         self.assertNotEqual(b'{}', p.stdout)
         self.assertEqual(b'', p.stderr)
+
+    def test_string_message(self):
+        msg = SimpleMessage(
+            text='hello',
+        ).SerializeToString()
+
+        p = assertExecutesSuccessfully(self, binary_path, stdin=msg)
+        self.assertNotEqual(b'{}', p.stdout)
+        self.assertEqual(b'', p.stderr)
+
+    def test_int32_message(self):
+        msg = SimpleMessage(
+            small_int=100,
+        ).SerializeToString()
+
+        p = assertExecutesSuccessfully(self, binary_path, stdin=msg)
+        self.assertEqual(b'{"small_int":100}', p.stdout)
+        self.assertEqual(b'', p.stderr)
+
+
+def assertExecutesSuccessfully(test: TestDecoder, path: str, stdin=None) -> subprocess.CompletedProcess:
+        p = subprocess.run([path], capture_output=True, input=stdin)
+        test.assertEqual(
+            0, p.returncode,
+            msg=f'process failed with code {p.returncode};\nstderr: {p.stderr}'
+        )
+        return p

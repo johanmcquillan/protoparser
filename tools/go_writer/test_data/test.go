@@ -1,8 +1,8 @@
 package main
 
 import (
+	"bufio"
 	"os"
-	"strings"
 
 	"github.com/golang/protobuf/jsonpb"
 	"github.com/golang/protobuf/proto"
@@ -11,11 +11,16 @@ import (
 )
 
 func main() {
-	marshaller := &jsonpb.Marshaler{}
-	arg := []byte(strings.Join(os.Args[1:], ""))
-	pb := &protopkg.SimpleMessage{}
-	if err := proto.Unmarshal(arg, pb); err != nil {
-		panic(err)
+	marshaller := &jsonpb.Marshaler{
+		OrigName: true,
 	}
-	marshaller.Marshal(os.Stdout, pb)
+	scanner := bufio.NewScanner(os.Stdin)
+	for scanner.Scan() {
+		msg := scanner.Bytes()
+		pb := &protopkg.SimpleMessage{}
+		if err := proto.Unmarshal(msg, pb); err != nil {
+			panic(err)
+		}
+		marshaller.Marshal(os.Stdout, pb)
+	}
 }
