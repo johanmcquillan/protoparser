@@ -19,14 +19,14 @@ class TestDecoder(unittest.TestCase):
         self.maxDiff = None
 
     def test_no_input(self):
-        p = assertExecutesSuccessfully(self, binary_path)
+        p = assert_executes_successfully(self, binary_path)
         self.assertEqual(b'', p.stdout)
         self.assertEqual(b'', p.stderr)
 
     def test_empty_message(self):
         msg = SimpleMessage().SerializeToString()
 
-        p = assertExecutesSuccessfully(self, binary_path, stdin=msg)
+        p = assert_executes_successfully(self, binary_path, stdin=msg)
         self.assertNotEqual(b'{}', p.stdout)
         self.assertEqual(b'', p.stderr)
 
@@ -35,7 +35,7 @@ class TestDecoder(unittest.TestCase):
             text='hello',
         ).SerializeToString()
 
-        p = assertExecutesSuccessfully(self, binary_path, stdin=msg)
+        p = assert_executes_successfully(self, binary_path, stdin=msg)
         self.assertNotEqual(b'{}', p.stdout)
         self.assertEqual(b'', p.stderr)
 
@@ -44,7 +44,7 @@ class TestDecoder(unittest.TestCase):
             small_int=100,
         ).SerializeToString()
 
-        p = assertExecutesSuccessfully(self, binary_path, stdin=msg)
+        p = assert_executes_successfully(self, binary_path, stdin=msg)
         self.assertEqual(b'{"small_int":100}', p.stdout)
         self.assertEqual(b'', p.stderr)
 
@@ -53,7 +53,7 @@ class TestDecoder(unittest.TestCase):
             big_int=999,
         ).SerializeToString()
 
-        p = assertExecutesSuccessfully(self, binary_path, stdin=msg)
+        p = assert_executes_successfully(self, binary_path, stdin=msg)
         self.assertEqual(b'{"big_int":"999"}', p.stdout)
         self.assertEqual(b'', p.stderr)
 
@@ -64,12 +64,12 @@ class TestDecoder(unittest.TestCase):
             text='goodbye',
         ).SerializeToString()
 
-        p = assertExecutesSuccessfully(self, binary_path, stdin=msg)
+        p = assert_executes_successfully(self, binary_path, stdin=msg)
         self.assertEqual(b'{"small_int":123,"big_int":"456","text":"goodbye"}', p.stdout)
         self.assertEqual(b'', p.stderr)
 
 
-def assertExecutesSuccessfully(
+def assert_executes_successfully(
         test: TestDecoder, path: str, stdin=None, orig_name=True, enums=False, defaults=False, indent='',
 ) -> subprocess.CompletedProcess:
 
