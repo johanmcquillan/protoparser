@@ -2,6 +2,7 @@
 import unittest
 import subprocess
 
+
 def assert_executes_successfully(
         test: unittest.TestCase, path: str, stdin=None, orig_name=True, enums=False, defaults=False, indent='',
 ) -> subprocess.CompletedProcess:
@@ -22,8 +23,13 @@ def assert_executes_successfully(
 
     p = subprocess.run(cmd, capture_output=True, input=stdin)
     test.assertEqual(
-        0, p.returncode,
-        msg=f'process failed with code {p.returncode};\nstderr: {p.stderr}\nstdin: {stdin}'
+        0,
+        p.returncode,
+        msg=(
+            f'process failed with code {p.returncode}\n\n'
+            f'STDERR: {p.stderr.decode("UTF-8")}\n'
+            f'STDIN:  {stdin}'
+        ),
     )
 
     return p
