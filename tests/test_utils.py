@@ -23,7 +23,7 @@ def assert_executes_successfully(
     p = subprocess.run(cmd, capture_output=True, input=stdin)
     test.assertEqual(
         0, p.returncode,
-        msg=f'process failed with code {p.returncode};\nstderr: {p.stderr}'
+        msg=f'process failed with code {p.returncode};\nstderr: {p.stderr}\nstdin: {stdin}'
     )
 
     return p

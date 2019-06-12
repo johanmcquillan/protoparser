@@ -19,13 +19,14 @@ _IMPORTS_3RD_PARTY = [
 
 class GoFile(object):
 
-    def __init__(self, proto_import, proto_message):
+    def __init__(self, proto_import, proto_message, out_file='main.go'):
+        self.out_file = out_file
         self.proto_import = proto_import
         self.proto_message = proto_message
         self.f = None
 
     def open(self):
-        self.f = open('main.go', 'x')
+        self.f = open(self.out_file, 'x')
 
     def close(self):
         self.f.close()
@@ -113,12 +114,17 @@ class GoFile(object):
 
 def main():
     parser = argparse.ArgumentParser('go_writer')
+    parser.add_argument('-o', '--outfile', type=str, required=True)
     parser.add_argument('-i', '--import', dest='proto_import', type=str, required=True)
     parser.add_argument('-m', '--message', dest='proto_message', type=str, required=True)
 
     args = parser.parse_args()
 
-    with GoFile(proto_import=args.proto_import, proto_message=args.proto_message) as go:
+    with GoFile(
+            out_file=args.outfile,
+            proto_import=args.proto_import,
+            proto_message=args.proto_message,
+    ) as go:
         go.generate()
 
 

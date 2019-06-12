@@ -7,3 +7,7 @@ message SimpleMessage {
     int64 big_int = 2;
     string text = 3;
 }
+
+message StringOnly {
+    string text = 1;
+}

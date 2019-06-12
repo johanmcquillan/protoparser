@@ -8,9 +8,9 @@ def proto_decoder(name:str, args:list, proto_target:str, message:str, visibility
     genrule(
         name = go_src_name,
         tools = ['//tools/go_writer'],
-        outs = ['main.go'],
+        outs = [name + '.go'],
         cmd = [
-            '$(exe //tools/go_writer) -i %s -m %s %s' % (go_proto_import, message, args_string),
+            '$(exe //tools/go_writer) -o $OUT -i %s -m %s %s' % (go_proto_import, message, args_string),
         ],
     )
 
