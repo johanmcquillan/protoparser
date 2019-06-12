@@ -48,10 +48,31 @@ class TestDecoder(unittest.TestCase):
         self.assertEqual(b'{"small_int":100}', p.stdout)
         self.assertEqual(b'', p.stderr)
 
+    def test_int64_message(self):
+        msg = SimpleMessage(
+            big_int=999,
+        ).SerializeToString()
+
+        p = assertExecutesSuccessfully(self, binary_path, stdin=msg)
+        self.assertEqual(b'{"big_int":"999"}', p.stdout)
+        self.assertEqual(b'', p.stderr)
+
+    def test_simple_message(self):
+        msg = SimpleMessage(
+            small_int=123,
+            big_int=456,
+            text='goodbye',
+        ).SerializeToString()
+
+        p = assertExecutesSuccessfully(self, binary_path, stdin=msg)
+        self.assertEqual(b'{"small_int":123,"big_int":"456","text":"goodbye"}', p.stdout)
+        self.assertEqual(b'', p.stderr)
+
 
 def assertExecutesSuccessfully(
         test: TestDecoder, path: str, stdin=None, orig_name=True, enums=False, defaults=False, indent='',
 ) -> subprocess.CompletedProcess:
+
     args = []
     if orig_name:
         args.append('-o')
