@@ -4,10 +4,6 @@ import argparse
 from tools.go_writer.common import GoFile
 
 
-_VAR_PB = 'pb'
-_VAR_PPKG = 'protopkg'
-
-
 class GoDecoder(GoFile):
 
     _std_imports = [
@@ -36,6 +32,7 @@ class GoDecoder(GoFile):
         self.writeln('Indent       string `short:"i" long:"indent" description:"A string to indent each level by"`', indent=1)
         self.writeln('OrigName     bool   `short:"o" long:"original" description:"Whether to use the original (.proto) name for fields"`', indent=1)
         self.writeln('}')
+        self.writeln()
 
     def write_main(self):
         self.writeln('func main() {')
@@ -58,10 +55,10 @@ class GoDecoder(GoFile):
         self.writeln('for scanner.Scan() {', indent=1)
         self.writeln('msg := scanner.Bytes()', indent=2)
         self.writeln(f'{self.proto_var} := &{self.proto_pkg}.{self.proto_message}{{}}', indent=2)
-        self.writeln(f'if err := proto.Unmarshal(msg, {_VAR_PB}); err != nil {{', indent=2)
+        self.writeln(f'if err := proto.Unmarshal(msg, {self.proto_var}); err != nil {{', indent=2)
         self.writeln(f'panic(err)', indent=3)
         self.writeln('}', indent=2)
 
-        self.writeln(f'marshaller.Marshal(os.Stdout, {_VAR_PB})', indent=2)
+        self.writeln(f'marshaller.Marshal(os.Stdout, {self.proto_var})', indent=2)
         self.writeln('}', indent=1)
         self.writeln('}')

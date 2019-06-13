@@ -81,6 +81,5 @@ class GoFile(ABC):
         self.writeln()
 
         self.write_opts()
-        self.writeln()
 
         self.write_main()

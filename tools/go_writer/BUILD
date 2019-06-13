@@ -4,7 +4,7 @@ python_binary(
     srcs = [
         "decode.py",
         "common.py",
-        #"encode.py",
+        "encode.py",
     ],
     visibility = ["PUBLIC"],
 )
