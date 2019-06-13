@@ -1,7 +1,7 @@
 
 import unittest
 
-from tools.go_writer.go_writer import GoFile
+from tools.go_writer.decode import GoDecoder
 
 
 test_data_path = 'tools/go_writer/test_data/test.go'
@@ -16,10 +16,10 @@ class MockFile(object):
         self.text += string
 
 
-class TestGoWriter(unittest.TestCase):
+class TestGoDecoder(unittest.TestCase):
 
     def setUp(self):
-        self.gofile = GoFile("github.com/johanmcquillan/protoparser/proto/examples", "SimpleMessage")
+        self.gofile = GoDecoder("github.com/johanmcquillan/protoparser/proto/examples", "SimpleMessage")
         self.gofile.f = MockFile()
 
         self.maxDiff = None

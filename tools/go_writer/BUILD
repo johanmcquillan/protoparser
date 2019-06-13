@@ -1,7 +1,10 @@
 python_binary(
     name = "go_writer",
-    main = "go_writer.py",
-    deps = [],
+    main = "main.py",
+    srcs = [
+        "decode.py",
+        #"encode.py",
+    ],
     visibility = ["PUBLIC"],
 )
 
