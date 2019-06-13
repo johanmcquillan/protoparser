@@ -3,6 +3,7 @@ python_binary(
     main = "main.py",
     srcs = [
         "decode.py",
+        "common.py",
         #"encode.py",
     ],
     visibility = ["PUBLIC"],

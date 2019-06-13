@@ -8,7 +8,7 @@ import (
 	"github.com/golang/protobuf/proto"
 	"github.com/jessevdk/go-flags"
 
-	protopkg "github.com/johanmcquillan/protoparser/proto/examples"
+	pbpkg "github.com/johanmcquillan/protoparser/proto/examples"
 )
 
 type Opts struct {
@@ -34,7 +34,7 @@ func main() {
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
 		msg := scanner.Bytes()
-		pb := &protopkg.SimpleMessage{}
+		pb := &pbpkg.SimpleMessage{}
 		if err := proto.Unmarshal(msg, pb); err != nil {
 			panic(err)
 		}

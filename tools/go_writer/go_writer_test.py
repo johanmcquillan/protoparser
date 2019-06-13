@@ -4,7 +4,7 @@ import unittest
 from tools.go_writer.decode import GoDecoder
 
 
-test_data_path = 'tools/go_writer/test_data/test.go'
+test_data_path = 'tools/go_writer/test_data/decoder.go'
 
 
 class MockFile(object):
