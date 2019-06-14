@@ -7,7 +7,7 @@ from tests.test_utils import assert_executes_successfully
 from proto.examples_pb2 import StringOnly
 
 
-binary_path = 'decoders/string_only_decoder'
+binary_path = 'parsers/string_only_decoder'
 
 
 class TestStringOnlyTest(unittest.TestCase):

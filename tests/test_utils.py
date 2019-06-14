@@ -4,7 +4,12 @@ import subprocess
 
 
 def assert_executes_successfully(
-        test: unittest.TestCase, path: str, stdin=None, orig_name=True, enums=False, defaults=False, indent='',
+        test: unittest.TestCase,
+        path: str, stdin=None,
+        orig_name=True,
+        enums=False,
+        defaults=False,
+        indent='',
 ) -> subprocess.CompletedProcess:
 
     args = []

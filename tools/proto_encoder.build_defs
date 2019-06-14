@@ -1,17 +1,17 @@
 
-def proto_decoder(name:str, args:list, proto_target:str, message:str, visibility:list=None):
+def proto_encoder(name:str, args:list, proto_target:str, message:str, visibility:list=None):
     args_string = ' '.join(args)
 
     go_proto_import = CONFIG.GO_IMPORT_PATH + canonicalise(proto_target)[1:].replace(':', '/')
 
-    go_src_name = '_%s#decoder_src' % name
+    go_src_name = '_%s#encoder_src' % name
 
     genrule(
         name = go_src_name,
         tools = ['//tools/go_writer'],
         outs = [name + '.go'],
         cmd = [
-            '$(exe //tools/go_writer) decoder -o $OUT -i %s -m %s %s' % (go_proto_import, message, args_string),
+            '$(exe //tools/go_writer) encoder -o $OUT -i %s %s -m %s' % (go_proto_import, args_string, message),
         ],
     )
 
@@ -20,10 +20,8 @@ def proto_decoder(name:str, args:list, proto_target:str, message:str, visibility
         srcs = [':' + go_src_name],
         deps = [
             proto_target,
-            '//third_party/go:flags',
             '//third_party/go:jsonpb',
             '//third_party/go:protobuf',
         ],
         visibility = visibility,
     )
-

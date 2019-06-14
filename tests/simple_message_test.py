@@ -7,7 +7,7 @@ from tests.test_utils import assert_executes_successfully
 from proto.examples_pb2 import SimpleMessage
 
 
-binary_path = 'decoders/simple_message_decoder'
+binary_path = 'parsers/simple_message_decoder'
 
 
 class TestSimpleMessageDecoder(unittest.TestCase):

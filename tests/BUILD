@@ -6,7 +6,7 @@ python_library(
 
 for test in glob(["*_test.py"]):
     name = splitext(test)[0]
-    decoder = "_".join(name.split("_")[:-1]) + "_decoder"
+    message = "_".join(name.split("_")[:-1])
 
     python_test(
         name = name,
@@ -16,6 +16,6 @@ for test in glob(["*_test.py"]):
             "//proto:examples",
         ],
         data = [
-            "//decoders:" + decoder,
+            "//parsers:%s_decoder" % message,
         ],
     )

@@ -25,6 +25,9 @@ class GoFile(ABC):
         self.f = open(self.out_file, 'x')
 
     def close(self):
+        self.f.close()
+
+    def __enter__(self):
         self.open()
         return self
 

@@ -1,4 +1,5 @@
 subinclude("//tools:proto_decoder")
+subinclude("//tools:proto_encoder")
 
 package(default_visibility=["//tests/..."])
 
@@ -14,6 +15,12 @@ def camel_case(name:str) -> str:
 for proto in protos:
     proto_decoder(
         name = proto + "_decoder",
+        args = [],
+        proto_target = "//proto:examples",
+        message = camel_case(proto),
+    )
+    proto_encoder(
+        name = proto + "_encoder",
         args = [],
         proto_target = "//proto:examples",
         message = camel_case(proto),

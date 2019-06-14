@@ -1,6 +1,6 @@
 python_binary(
     name = "go_writer",
-    main = "main.py",
+    main = "go_writer.py",
     srcs = [
         "decode.py",
         "common.py",

@@ -2,6 +2,7 @@
 import argparse
 
 from tools.go_writer.decode import GoDecoder
+from tools.go_writer.encode import GoEncoder
 
 
 def add_common_arguments(parser: argparse.ArgumentParser):
@@ -19,6 +20,15 @@ def write_decoder(args: argparse.Namespace):
         go.generate()
 
 
+def write_encoder(args: argparse.Namespace):
+    with GoEncoder(
+            out_file=args.outfile,
+            proto_import=args.proto_import,
+            proto_message=args.proto_message,
+    ) as go:
+        go.generate()
+
+
 def main():
     parser = argparse.ArgumentParser('go_writer')
     subparsers = parser.add_subparsers()
@@ -27,6 +37,10 @@ def main():
     decoder_parser = subparsers.add_parser('decoder')
     add_common_arguments(decoder_parser)
     decoder_parser.set_defaults(func=write_decoder)
+
+    encoder_parser = subparsers.add_parser('encoder')
+    add_common_arguments(encoder_parser)
+    encoder_parser.set_defaults(func=write_encoder)
 
     args = parser.parse_args()
     args.func(args)
