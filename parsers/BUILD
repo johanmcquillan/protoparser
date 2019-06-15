@@ -1,5 +1,5 @@
-subinclude("//tools:proto_decoder")
-subinclude("//tools:proto_encoder")
+subinclude("//build_defs:proto_decoder")
+subinclude("//build_defs:proto_encoder")
 
 package(default_visibility=["//tests/..."])
 

@@ -10,7 +10,7 @@ from proto.examples_pb2 import StringOnly
 binary_path = 'parsers/string_only_decoder'
 
 
-class TestStringOnlyTest(unittest.TestCase):
+class TestStringOnly(unittest.TestCase):
 
     def setUp(self):
         self.assertTrue(os.path.isfile(binary_path))

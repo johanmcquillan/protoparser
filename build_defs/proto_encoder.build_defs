@@ -1,0 +1,69 @@
+go_file = """package main
+
+import (
+	"bufio"
+	"bytes"
+	"os"
+
+	"github.com/golang/protobuf/jsonpb"
+	"github.com/golang/protobuf/proto"
+
+	pbpkg "$PROTO_IMPORT"
+)
+
+func main() {
+	unmarshaller := &jsonpb.Unmarshaler{}
+
+	scanner := bufio.NewScanner(os.Stdin)
+	for scanner.Scan() {
+		json := scanner.Bytes()
+		reader := bytes.NewReader(json)
+		pb := &pbpkg.$PROTO_MESSAGE{}
+		if err := unmarshaller.Unmarshal(reader, pb); err != nil {
+			panic(err)
+		}
+
+		msg, err := proto.Marshal(pb)
+		if err != nil {
+			panic(err)
+		}
+		os.Stdout.Write(msg)
+	}
+}
+"""
+
+def proto_encoder(name:str, args:list, proto_target:str, message:str, visibility:list=None):
+    args_string = ' '.join(args)
+
+    go_proto_import = CONFIG.GO_IMPORT_PATH + canonicalise(proto_target)[1:].replace(':', '/')
+
+    go_src_name = '_%s#encoder_src' % name
+
+    cmd = [
+        'set -x',
+        'touch $OUT',
+    ]
+    for line in go_file.split('\n'):
+        cmd.append(
+            "sed -e 's:$PROTO_IMPORT:%s:g' -e 's:$PROTO_MESSAGE:%s:g' <<< '%s' >> $OUT" % (
+                go_proto_import, message, line
+            )
+        )
+
+    go_src_rule = genrule(
+        name = go_src_name,
+        outs = [name + '.go'],
+        cmd = cmd,
+    )
+
+    go_binary(
+        name = name,
+        srcs = [go_src_rule],
+        deps = [
+            proto_target,
+            '//third_party/go:jsonpb',
+            '//third_party/go:protobuf',
+        ],
+        visibility = visibility,
+    )
+
