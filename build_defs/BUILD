@@ -9,3 +9,4 @@ filegroup(
     name = "proto_encoder",
     srcs = ["proto_encoder.build_defs"],
 )
+
