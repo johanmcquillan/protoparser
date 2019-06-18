@@ -46,7 +46,7 @@ func main() {
 def proto_decoder(name:str, args:list, proto_target:str, message:str, visibility:list=None):
     args_string = ' '.join(args)
 
-    go_proto_import = CONFIG.GO_IMPORT_PATH + canonicalise(proto_target)[1:].replace(':', '/')
+    go_proto_import = (CONFIG.GO_IMPORT_PATH + canonicalise(proto_target)[1:].replace(':', '/')).lstrip('/')
 
     go_src_name = '_%s#decoder_src' % name
 
