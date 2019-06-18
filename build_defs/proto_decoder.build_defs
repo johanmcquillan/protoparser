@@ -43,36 +43,6 @@ func main() {
 }
 """
 
-go_get(
-    name = "flags",
-    get = "github.com/jessevdk/go-flags",
-)
-
-go_get(
-    name = "jsonpb",
-    get = "github.com/golang/protobuf/jsonpb",
-    deps = [
-        ":ptypes",
-    ],
-)
-
-go_get(
-    name = "protobuf",
-    get = "github.com/golang/protobuf/proto",
-)
-
-go_get(
-    name = "ptypes",
-    get = "github.com/golang/protobuf/ptypes",
-    install = [
-        "",
-        "struct",
-    ],
-    deps = [
-        ":protobuf",
-    ],
-)
-
 def proto_decoder(name:str, args:list, proto_target:str, message:str, visibility:list=None):
     args_string = ' '.join(args)
 
@@ -102,9 +72,8 @@ def proto_decoder(name:str, args:list, proto_target:str, message:str, visibility
         srcs = [go_src_rule],
         deps = [
             proto_target,
-            ':flags',
-            ':jsonpb',
-            ':protobuf',
+            '//third_party/go:go-flags',
+            '//third_party/go:protobuf',
         ],
         visibility = visibility,
     )
